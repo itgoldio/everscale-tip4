@@ -44,7 +44,6 @@ contract TIP4_1Nft is ITIP4_1NFT, TIP6 {
         address sendGasTo,
         uint128 remainOnNft
     ) public {
-
         optional(TvmCell) optSalt = tvm.codeSalt(tvm.code());
         require(optSalt.hasValue(), NftErrors.value_is_empty);
         (address collection) = optSalt.get().toSlice().decode(address);
@@ -52,7 +51,7 @@ contract TIP4_1Nft is ITIP4_1NFT, TIP6 {
         require(remainOnNft != 0, NftErrors.value_is_empty);
         require(msg.value > remainOnNft, NftErrors.value_is_less_than_required);
         tvm.accept();
-        tvm.rawReserve(0, remainOnNft);
+        tvm.rawReserve(remainOnNft, 0);
 
         _collection = collection;
         _owner = owner;
@@ -93,7 +92,6 @@ contract TIP4_1Nft is ITIP4_1NFT, TIP6 {
 
         address oldOwner = _owner;
         _changeOwner(newOwner);
-        _changeManager(newOwner);
 
         for ((address dest, CallbackParams p) : callbacks) {
             INftChangeOwner(dest).onNftChangeOwner{
@@ -118,6 +116,7 @@ contract TIP4_1Nft is ITIP4_1NFT, TIP6 {
     ) internal {
         address oldOwner = _owner;
         _owner = newOwner;
+        _changeManager(newOwner);
         
         if (oldOwner != newOwner) {
             emit OwnerChanged(oldOwner, newOwner);
