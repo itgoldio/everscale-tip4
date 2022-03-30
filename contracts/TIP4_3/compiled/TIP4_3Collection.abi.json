@@ -15,21 +15,6 @@
 			]
 		},
 		{
-			"name": "mintNft",
-			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "setRemainOnNft",
-			"inputs": [
-				{"name":"remainOnNft","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "deployIndexBasis",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
@@ -92,23 +77,6 @@
 			]
 		},
 		{
-			"name": "owner",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"pubkey","type":"uint256"}
-			]
-		},
-		{
-			"name": "transferOwnership",
-			"inputs": [
-				{"name":"newOwner","type":"uint256"}
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "totalSupply",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
@@ -166,13 +134,20 @@
 			]
 		},
 		{
-			"name": "supportsInterface",
+			"name": "owner",
 			"inputs": [
-				{"name":"answerId","type":"uint32"},
-				{"name":"interfaceID","type":"uint32"}
+				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
-				{"name":"value0","type":"bool"}
+				{"name":"pubkey","type":"uint256"}
+			]
+		},
+		{
+			"name": "transferOwnership",
+			"inputs": [
+				{"name":"newOwner","type":"uint256"}
+			],
+			"outputs": [
 			]
 		}
 	],
@@ -216,15 +191,13 @@
 		{"name":"_pubkey","type":"uint256"},
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
-		{"name":"_supportedInterfaces","type":"optional(cell)"},
+		{"name":"_owner","type":"uint256"},
 		{"name":"_codeNft","type":"cell"},
 		{"name":"_totalSupply","type":"uint128"},
-		{"name":"_owner","type":"uint256"},
 		{"name":"_codeIndex","type":"cell"},
 		{"name":"_codeIndexBasis","type":"cell"},
 		{"name":"_indexDeployValue","type":"uint128"},
 		{"name":"_indexDestroyValue","type":"uint128"},
-		{"name":"_deployIndexBasisValue","type":"uint128"},
-		{"name":"_remainOnNft","type":"uint128"}
+		{"name":"_deployIndexBasisValue","type":"uint128"}
 	]
 }
