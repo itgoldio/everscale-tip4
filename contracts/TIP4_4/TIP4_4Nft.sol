@@ -34,11 +34,11 @@ abstract contract TIP4_4Nft is TIP4_1Nft, ITIP4_4NFT {
 
     function onStorageFillComplete(address gasReceiver) external override {
         require(msg.sender == _storage);
-        tvm.rawReserve(0, msg.value);
+        tvm.rawReserve(0, 4);
 
         _active = true;
 
-        gasReceiver.transfer({value: 0, flag: 128});
+        gasReceiver.transfer({value: 0, flag: 128 + 2});
     }
 
     function getStorage() external view override responsible returns (address addr) {

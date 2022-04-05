@@ -9,7 +9,11 @@
 				{"name":"codeNft","type":"cell"},
 				{"name":"codeIndex","type":"cell"},
 				{"name":"codeIndexBasis","type":"cell"},
-				{"name":"ownerPubkey","type":"uint256"}
+				{"name":"codeStorage","type":"cell"},
+				{"name":"ownerPubkey","type":"uint256"},
+				{"name":"name","type":"string"},
+				{"name":"symbol","type":"string"},
+				{"name":"mintingFee","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -17,6 +21,21 @@
 		{
 			"name": "mintNft",
 			"inputs": [
+				{"name":"name","type":"string"},
+				{"name":"description","type":"string"},
+				{"name":"royalty","type":"uint8"},
+				{"name":"uploader","type":"address"},
+				{"name":"mimeType","type":"string"},
+				{"name":"chunksNum","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "withdraw",
+			"inputs": [
+				{"name":"dest","type":"address"},
+				{"name":"value","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -27,6 +46,61 @@
 				{"name":"remainOnNft","type":"uint128"}
 			],
 			"outputs": [
+			]
+		},
+		{
+			"name": "name",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"string"}
+			]
+		},
+		{
+			"name": "symbol",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"string"}
+			]
+		},
+		{
+			"name": "mintingFee",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
+			"name": "storageCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"code","type":"cell"}
+			]
+		},
+		{
+			"name": "storageCodeHash",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"codeHash","type":"uint256"}
+			]
+		},
+		{
+			"name": "resolveStorage",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"nft","type":"address"}
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
 			]
 		},
 		{
@@ -205,6 +279,11 @@
 		{"name":"_indexDeployValue","type":"uint128"},
 		{"name":"_indexDestroyValue","type":"uint128"},
 		{"name":"_deployIndexBasisValue","type":"uint128"},
-		{"name":"_remainOnNft","type":"uint128"}
+		{"name":"_codeStorage","type":"cell"},
+		{"name":"_storageDeployValue","type":"uint128"},
+		{"name":"_remainOnNft","type":"uint128"},
+		{"name":"_name","type":"string"},
+		{"name":"_symbol","type":"string"},
+		{"name":"_mintingFee","type":"uint128"}
 	]
 }

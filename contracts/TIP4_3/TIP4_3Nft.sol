@@ -1,5 +1,5 @@
-// ItGold.io Contracts (v1.0.0) 
-
+/// We recommend using the compiler version 0.58.1. 
+/// You can use other versions, but we do not guarantee compatibility of the compiler version.
 pragma ton-solidity = 0.58.1;
 
 pragma AbiHeader expire;
@@ -12,13 +12,14 @@ import './interfaces/ITIP4_3NFT.sol';
 import './Index.sol';
 
 
-/// @title One of the required contracts of an TIP4-1(Non-Fungible Token Standard) compliant technology.
-/// For detect what interfaces a smart contract implements used TIP-6.1 standard. ...
-/// ... Read more here (https://github.com/nftalliance/docs/blob/main/src/Standard/TIP-6/1.md)
+/// This contract implement TIP4_1Collection, ITIP4_3NFT (add indexes)
 abstract contract TIP4_3Nft is TIP4_1Nft, ITIP4_3NFT {
 
+    /// Values for deploy/destroy
     uint128 _indexDeployValue;
     uint128 _indexDestroyValue;
+
+    /// TvmCell object code of Index contract
     TvmCell _codeIndex;
 
     constructor(
@@ -39,16 +40,23 @@ abstract contract TIP4_3Nft is TIP4_1Nft, ITIP4_3NFT {
         ] = true;
 
         _deployIndex();
-
     }
 
-    function changeOwner(
-        address newOwner, 
+    function _beforeChangeOwner(
+        address oldOwner, 
+        address newOwner,
         address sendGasTo, 
         mapping(address => CallbackParams) callbacks
-    ) public virtual override onlyManager {
+    ) internal virtual override {
         _destructIndex(sendGasTo);
-        super.changeOwner(newOwner, sendGasTo, callbacks);
+    }   
+
+    function _afterChangeOwner(
+        address oldOwner, 
+        address newOwner,
+        address sendGasTo, 
+        mapping(address => CallbackParams) callbacks
+    ) internal virtual override {
         _deployIndex();
     }
 
@@ -108,13 +116,13 @@ abstract contract TIP4_3Nft is TIP4_1Nft, ITIP4_3NFT {
     }
 
     function setIndexDeployValue(uint128 indexDeployValue) public onlyManager {
-        tvm.rawReserve(msg.value, 1);
+        tvm.rawReserve(0, 4);
         _indexDeployValue = indexDeployValue;
         msg.sender.transfer({value: 0, flag: 128});
     }
 
     function setIndexDestroyValue(uint128 indexDestroyValue) public onlyManager {
-        tvm.rawReserve(msg.value, 1);
+        tvm.rawReserve(0, 4);
         _indexDestroyValue = indexDestroyValue;
         msg.sender.transfer({value: 0, flag: 128});
     }

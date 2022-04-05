@@ -8,14 +8,18 @@ pragma AbiHeader pubkey;
 
 
 import '../../../contracts/TIP4_1/TIP4_1Nft.sol';
+import '../../../contracts/TIP4_2/TIP4_2Nft.sol';
 import '../../../contracts/TIP4_3/TIP4_3Nft.sol';
+import './interfaces/ITokenBurned.sol';
 
-contract Nft is TIP4_1Nft, TIP4_3Nft {
+
+contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft {
 
     constructor(
         address owner,
         address sendGasTo,
         uint128 remainOnNft,
+        string json,
         uint128 indexDeployValue,
         uint128 indexDestroyValue,
         TvmCell codeIndex
@@ -23,6 +27,8 @@ contract Nft is TIP4_1Nft, TIP4_3Nft {
         owner,
         sendGasTo,
         remainOnNft
+    ) TIP4_2Nft (
+        json
     ) TIP4_3Nft (
         indexDeployValue,
         indexDestroyValue,
@@ -47,6 +53,12 @@ contract Nft is TIP4_1Nft, TIP4_3Nft {
         mapping(address => CallbackParams) callbacks
     ) internal virtual override(TIP4_1Nft, TIP4_3Nft) {
         TIP4_3Nft._afterChangeOwner(oldOwner, newOwner, sendGasTo, callbacks);
+    }
+
+    function burn(address dest) external virtual onlyManager {
+        tvm.accept();
+        ITokenBurned(_collection).onTokenBurned(_id, _owner, _manager);
+        selfdestruct(dest);
     }
 
 }
